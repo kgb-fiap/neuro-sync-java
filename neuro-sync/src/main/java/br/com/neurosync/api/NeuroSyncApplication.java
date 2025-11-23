@@ -1,4 +1,4 @@
-package br.com.fiap.neuro_sync;
+package br.com.neurosync.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class NeuroSyncApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NeuroSyncApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(NeuroSyncApplication.class, args);
+    }
 }
