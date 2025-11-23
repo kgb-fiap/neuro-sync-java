@@ -14,21 +14,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.OracleDialect
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
 
 server:
   port: ${PORT:8080}
-
-logging:
-  level:
-    org.springframework.security: INFO
 
 neurosync:
   jwt:
