@@ -64,7 +64,8 @@ neuro-sync/
 │   │   │   ├── config/              # CORS, OpenAPI
 │   │   │   └── exception/           # Handler global
 │   │   └── resources/
-│   │       └── application.yml      # (use variáveis de ambiente)
+│   │       ├── application.yml      # (use variáveis de ambiente)
+│   │       └── application.yml.example
 │   │       
 ├── pom.xml
 └── Dockerfile
