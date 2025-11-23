@@ -21,7 +21,7 @@ public class AvaliacaoEstacao {
     @Column(name = "ID_AVALIACAO")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_RESERVA", nullable = false)
     private ReservaEstacao reservaEstacao;
 

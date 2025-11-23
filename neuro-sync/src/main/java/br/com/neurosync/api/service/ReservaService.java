@@ -72,8 +72,8 @@ public class ReservaService {
         sp.registerStoredProcedureParameter("p_id_usuario", Long.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_id_estacao", Long.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_id_status_reserva", Long.class, ParameterMode.IN);
-        sp.registerStoredProcedureParameter("p_data_hora_inicio_prevista", LocalDateTime.class, ParameterMode.IN);
-        sp.registerStoredProcedureParameter("p_data_hora_fim_prevista", LocalDateTime.class, ParameterMode.IN);
+        sp.registerStoredProcedureParameter("p_data_hora_inicio_prevista", java.sql.Timestamp.class, ParameterMode.IN);
+        sp.registerStoredProcedureParameter("p_data_hora_fim_prevista", java.sql.Timestamp.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_origem_reserva", String.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_motivo_cancelamento", String.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_indice_conforto_calculado", Double.class, ParameterMode.IN);

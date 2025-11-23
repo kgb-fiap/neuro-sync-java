@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "RESERVA_ESTACAO")
@@ -62,7 +63,7 @@ public class ReservaEstacao {
     @Column(name = "OBSERVACOES")
     private String observacoes;
 
-    @OneToOne(mappedBy = "reservaEstacao", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reservaEstacao", fetch = FetchType.LAZY)
     @JsonIgnore
-    private AvaliacaoEstacao avaliacaoEstacao;
+    private List<AvaliacaoEstacao> avaliacoes;
 }

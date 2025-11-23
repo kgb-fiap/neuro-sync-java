@@ -29,6 +29,20 @@ Viabilizar ambientes de trabalho adaptáveis e inclusivos para pessoas neurodive
 6. **Indicadores:** Chamada de functions Oracle (`FNC_CALC_INDICE_CONFORTO`, `FNC_TAXA_OCUPACAO_ESTACAO`, `FNC_RESERVA_COMPATIVEL`).  
 7. **Swagger/OpenAPI:** Documentação disponível em `/swagger-ui.html`.
 
+#### 🔍 Functions Oracle (regras de negócio)
+- `FNC_CALC_INDICE_CONFORTO(p_id_estacao, p_data_inicio, p_data_fim)`  
+  - Entrada: estação e intervalo de datas.  
+  - Saída: `NUMBER` (ex.: 0–100) representando o índice médio de conforto no período, combinando leituras de sensores e avaliações da estação.  
+  - Endpoint: `GET /api/indicadores/estacoes/{id}/indice-conforto?inicio=...&fim=...`
+- `FNC_TAXA_OCUPACAO_ESTACAO(p_id_estacao, p_data_inicio, p_data_fim)`  
+  - Entrada: estação e intervalo de datas.  
+  - Saída: `NUMBER` em porcentagem (0–100) indicando quanto tempo a estação esteve ocupada no período.  
+  - Endpoint: `GET /api/indicadores/estacoes/{id}/taxa-ocupacao?inicio=...&fim=...`
+- `FNC_RESERVA_COMPATIVEL(p_id_reserva)`  
+  - Entrada: reserva.  
+  - Saída: `CHAR` (`'S'` ou `'N'`) informando se a reserva está compatível com as preferências sensoriais do usuário (ruído, luz, visual).  
+  - Endpoint: `GET /api/reservas/{id}/compatibilidade`
+
 ---
 
 ### **🔗 Integrações**
