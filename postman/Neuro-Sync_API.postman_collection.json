@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "6c1ad138-aef0-48eb-93bd-93229fd255ee",
+		"name": "Neuro-Sync API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13864068"
+	},
+	"item": [
+		{
+			"name": "Auth - Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('token', res.token);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"henrique.souza@neurosync.com\",\n  \"senha\": \"HASH_HENRIQUE\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estacoes - Listar",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/estacoes?page=0&size=10&status=ATIVA",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estacoes"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "status",
+							"value": "ATIVA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservas - Listar",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/reservas?page=0&size=10&usuarioId={{usuarioId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"reservas"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "usuarioId",
+							"value": "{{usuarioId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservas - Criar (procedure)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"usuarioId\": {{usuarioId}},\n  \"estacaoId\": {{estacaoId}},\n  \"statusReservaId\": {{statusReservaId}},\n  \"dataHoraInicioPrevista\": \"2025-11-27T13:00:00\",\n  \"dataHoraFimPrevista\": \"2025-11-27T14:00:00\",\n  \"origemReserva\": \"MOBILE\",\n  \"observacoes\": \"Reserva via Postman\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/reservas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservas - Avaliar (procedure)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"reservaId\": 82,\n  \"notaConfortoGeral\": 5,\n  \"notaRuido\": 4,\n  \"notaLuz\": 4,\n  \"notaEstimuloVisual\": 5,\n  \"comentario\": \"Muito boa\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/reservas/avaliacoes",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"avaliacoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Indicadores - Índice de Conforto",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/indicadores/estacoes/{{estacaoId}}/indice-conforto?inicio=2025-11-19T10:00:00&fim=2025-11-28T11:00:00",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"indicadores",
+						"estacoes",
+						"{{estacaoId}}",
+						"indice-conforto"
+					],
+					"query": [
+						{
+							"key": "inicio",
+							"value": "2025-11-19T10:00:00"
+						},
+						{
+							"key": "fim",
+							"value": "2025-11-28T11:00:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Indicadores - Taxa de Ocupação",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/indicadores/estacoes/{{estacaoId}}/taxa-ocupacao?inicio=2025-11-19T10:00:00&fim=2025-11-28T11:00:00",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"indicadores",
+						"estacoes",
+						"{{estacaoId}}",
+						"taxa-ocupacao"
+					],
+					"query": [
+						{
+							"key": "inicio",
+							"value": "2025-11-19T10:00:00"
+						},
+						{
+							"key": "fim",
+							"value": "2025-11-28T11:00:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservas - Compatibilidade",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/reservas/{{reservaId}}/compatibilidade",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"{{reservaId}}",
+						"compatibilidade"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preferencias - Criar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"usuarioId\": {{usuarioId}},\n  \"ruidoMaxDb\": 55,\n  \"luzMinLux\": 200,\n  \"luzMaxLux\": 500,\n  \"toleranciaVisual\": 3,\n  \"prefereZona\": \"SILENCIO\",\n  \"observacoesPreferencia\": \"Prefere áreas silenciosas\",\n  \"dataInicioVigencia\": \"2025-11-23\",\n  \"dataFimVigencia\": null,\n  \"ativo\": \"S\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/preferencias-sensoriais",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"preferencias-sensoriais"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preferencias - Por Usuário",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/preferencias-sensoriais/usuario/{{usuarioId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"preferencias-sensoriais",
+						"usuario",
+						"{{usuarioId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
