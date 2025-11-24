@@ -9,6 +9,12 @@
 **Neuro-Sync API** é o backend REST (Spring Boot) do desafio **Global Solution 2025 - O Futuro do Trabalho**.  
 Exposição de serviços para reservas de estações, preferências sensoriais, autenticação JWT e indicadores calculados a partir do Oracle.
 
+O neuro-sync é uma solução tecnológica voltada para inclusão produtiva e bem-estar no ambiente de trabalho, alinhada ao tema “o futuro do trabalho” e aos objetivos de desenvolvimento sustentável (ods 8 - trabalho decente e crescimento econômico, e ods 10 – redução das desigualdades). a proposta combina iot, análise de dados e acessibilidade sensorial, permitindo que profissionais neurodivergentes possam localizar, reservar e monitorar estações de trabalho sensorialmente adequadas, com controle de ruído, luminosidade e estímulos visuais em tempo real.
+
+O modelo open-plan de escritórios modernos foi desenhado para um ideal neurotípico de colaboração. Embora promova interação, este formato gera sobrecarga sensorial para profissionais neurodivergentes (como pessoas com TDAH, TEA, Dislexia ou Dispraxia). Ruídos constantes, luzes fluorescentes e estímulos visuais excessivos tornam o ambiente exaustivo e improdutivo, afetando a saúde mental e a permanência dessas pessoas no mercado de trabalho. Empresas investem em tecnologia e automação, mas ainda falham em incluir a diversidade neurológica, gerando desigualdade e perda de talentos qualificados.
+
+O principal objetivo do Neuro-Sync é desenvolver uma infraestrutura digital e física que permita a personalização do ambiente de trabalho com base em dados sensoriais monitorados continuamente. A solução propõe o uso de Internet das Coisas (IoT) para captura e processamento de variáveis ambientais, integradas a uma aplicação móvel que possibilita ao colaborador localizar e reservar estações de trabalho ideais. Além disso, a camada de software corporativo fornece indicadores e relatórios para gestores de RH e facilities, permitindo decisões baseadas em evidências sobre adaptação de espaços e políticas de inclusão. A arquitetura foi desenhada para garantir escalabilidade e interoperabilidade, permitindo integração com sistemas corporativos de reserva de salas, diretórios de usuários e plataformas de Business Intelligence. Assim, o projeto combina inovação tecnológica e impacto social, demonstrando que a inclusão pode ser tratada como um problema de engenharia de sistemas, e não apenas como uma iniciativa de diversidade.
+
 ---
 
 ### **🎯 Objetivo (ODS 8 e 10)**
