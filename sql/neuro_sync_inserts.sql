@@ -53,7 +53,7 @@ BEGIN
   
   PRC_INS_EMPRESA('Empresa Cliente 9', 'Cliente 9','88.888.888/0001-88', NULL, NULL, 'S', v_id_empresa_aux);
   PRC_INS_EMPRESA('Empresa Cliente 10', 'Cliente 10','99.999.999/0001-99', NULL, NULL, 'S', v_id_empresa_aux);
-
+    
   --------------------------------------------------------------------
   -- FILIAIS (10)
   --------------------------------------------------------------------
@@ -135,6 +135,7 @@ BEGIN
   PRC_INS_STATUS_RESERVA('REJEITADA', 'Reserva rejeitada por política interna', 'S', v_id_status_dummy);
   PRC_INS_STATUS_RESERVA('EM_ANALISE', 'Reserva aguardando avaliação de RH/gestor', 'N', v_id_status_dummy);
   PRC_INS_STATUS_RESERVA('AGUARDANDO_CHECKIN', 'Reserva confirmada aguardando check-in', 'N', v_id_status_dummy);
+  COMMIT;
 END;
 /
 ------------------------------------------------------------------------
@@ -231,9 +232,10 @@ BEGIN
   
   PRC_INS_SENSOR(v_estacao_5, v_tipo_ruido, 'HW-RUIDO-RJ-01',SYSDATE-15, SYSDATE-1, 'ATIVO', NULL, v_sensor_dummy);
   PRC_INS_SENSOR(v_estacao_5, v_tipo_lux, 'HW-LUX-RJ-01',SYSDATE-15, SYSDATE-1, 'ATIVO', NULL, v_sensor_dummy);
-  
+  COMMIT;
 END;
 /
+
 ------------------------------------------------------------------------
 -- BLOCO 3: USUÁRIOS / USUARIO_PERFIL / PREFERENCIAS SENSORIAIS
 ------------------------------------------------------------------------
@@ -279,20 +281,146 @@ BEGIN
   -- USUÁRIOS (10)
   --------------------------------------------------------------------
   
-  PRC_INS_USUARIO(v_setor_ti, 'Ana Souza', 'ana.souza@neurosync.com', 'NS001','11911110001', TO_DATE('2022-03-01','YYYY-MM-DD'),'S', 'S', 'Prefere ambientes bem silenciosos', v_id_usuario1);
-  PRC_INS_USUARIO(v_setor_ti, 'Bruno Lima', 'bruno.lima@neurosync.com', 'NS002','11911110002', TO_DATE('2021-08-15','YYYY-MM-DD'),'S', 'S', 'Sensível a luz muito intensa', v_id_usuario2);
-  
-  PRC_INS_USUARIO(v_setor_rh, 'Carla Mendes', 'carla.mendes@neurosync.com', 'NS003','11911110003', TO_DATE('2020-01-10','YYYY-MM-DD'),'S', 'N', 'RH responsável por inclusão', v_id_usuario3);
-  PRC_INS_USUARIO(v_setor_ops, 'Diego Santos', 'diego.santos@neurosync.com', 'NS004','11911110004', TO_DATE('2019-05-20','YYYY-MM-DD'),'S', 'S', 'Se concentra melhor em zonas neutras', v_id_usuario4);
-  
-  PRC_INS_USUARIO(v_setor_ops, 'Eduarda Silva', 'eduarda.silva@neurosync.com', 'NS005','11911110005', TO_DATE('2023-02-01','YYYY-MM-DD'),'S', 'N', 'Responsável por agendar testes de zonas', v_id_usuario5);
-  PRC_INS_USUARIO(v_setor_inov, 'Felipe Araújo', 'felipe.araujo@neurosync.com', 'NS006','11911110006', TO_DATE('2022-11-11','YYYY-MM-DD'),'S', 'S', 'Participa do comitê de neurodiversidade', v_id_usuario6);
-  
-  PRC_INS_USUARIO(v_setor_inov, 'Gabriela Costa', 'gabriela.costa@neurosync.com', 'NS007','11911110007', TO_DATE('2021-04-02','YYYY-MM-DD'),'S', 'S', 'Ajuda a validar as estações neuro-friendly', v_id_usuario7);
-  PRC_INS_USUARIO(v_setor_ti, 'Henrique Souza', 'henrique.souza@neurosync.com', 'NS008','11911110008', TO_DATE('2018-09-30','YYYY-MM-DD'),'S', 'N', 'Tech lead do time de backend', v_id_usuario8);
-  
-  PRC_INS_USUARIO(v_setor_rh, 'Isabela Rocha', 'isabela.rocha@neurosync.com', 'NS009','11911110009', TO_DATE('2017-07-07','YYYY-MM-DD'),'S', 'N', 'Business partner focada em políticas', v_id_usuario9);
-  PRC_INS_USUARIO(v_setor_ops, 'João Ferreira', 'joao.ferreira@neurosync.com', 'NS010','11911110010', TO_DATE('2024-01-05','YYYY-MM-DD'),'S', 'S', 'Recém-contratado, em adaptação sensorial', v_id_usuario10);
+PRC_INS_USUARIO(
+    v_setor_ti,
+    'Ana Souza',
+    'ana.souza@neurosync.com',
+    'NS001',
+    '11911110001',
+    TO_DATE('2022-03-01','YYYY-MM-DD'),
+    'S',
+    'S',
+    'Prefere ambientes bem silenciosos',
+    'HASH_ANA',
+    v_id_usuario1
+);
+
+PRC_INS_USUARIO(
+    v_setor_ti,
+    'Bruno Lima',
+    'bruno.lima@neurosync.com',
+    'NS002',
+    '11911110002',
+    TO_DATE('2021-08-15','YYYY-MM-DD'),
+    'S',
+    'S',
+    'Sensível a luz muito intensa',
+    'HASH_BRUNO',
+    v_id_usuario2
+);
+
+PRC_INS_USUARIO(
+    v_setor_rh,
+    'Carla Mendes',
+    'carla.mendes@neurosync.com',
+    'NS003',
+    '11911110003',
+    TO_DATE('2020-01-10','YYYY-MM-DD'),
+    'S',
+    'N',
+    'RH responsável por inclusão',
+    'HASH_CARLA',
+    v_id_usuario3
+);
+
+PRC_INS_USUARIO(
+    v_setor_ops,
+    'Diego Santos',
+    'diego.santos@neurosync.com',
+    'NS004',
+    '11911110004',
+    TO_DATE('2019-05-20','YYYY-MM-DD'),
+    'S',
+    'S',
+    'Se concentra melhor em zonas neutras',
+    'HASH_DIEGO',
+    v_id_usuario4
+);
+
+PRC_INS_USUARIO(
+    v_setor_ops,
+    'Eduarda Silva',
+    'eduarda.silva@neurosync.com',
+    'NS005',
+    '11911110005',
+    TO_DATE('2023-02-01','YYYY-MM-DD'),
+    'S',
+    'N',
+    'Responsável por agendar testes de zonas',
+    'HASH_EDUARDA',
+    v_id_usuario5
+);
+
+PRC_INS_USUARIO(
+    v_setor_inov,
+    'Felipe Araújo',
+    'felipe.araujo@neurosync.com',
+    'NS006',
+    '11911110006',
+    TO_DATE('2022-11-11','YYYY-MM-DD'),
+    'S',
+    'S',
+    'Participa do comitê de neurodiversidade',
+    'HASH_FELIPE',
+    v_id_usuario6
+);
+
+PRC_INS_USUARIO(
+    v_setor_inov,
+    'Gabriela Costa',
+    'gabriela.costa@neurosync.com',
+    'NS007',
+    '11911110007',
+    TO_DATE('2021-04-02','YYYY-MM-DD'),
+    'S',
+    'S',
+    'Ajuda a validar as estações neuro-friendly',
+    'HASH_GABRIELA',
+    v_id_usuario7
+);
+
+PRC_INS_USUARIO(
+    v_setor_ti,
+    'Henrique Souza',
+    'henrique.souza@neurosync.com',
+    'NS008',
+    '11911110008',
+    TO_DATE('2018-09-30','YYYY-MM-DD'),
+    'S',
+    'N',
+    'Tech lead do time de backend',
+    'HASH_HENRIQUE',
+    v_id_usuario8
+);
+
+PRC_INS_USUARIO(
+    v_setor_rh,
+    'Isabela Rocha',
+    'isabela.rocha@neurosync.com',
+    'NS009',
+    '11911110009',
+    TO_DATE('2017-07-07','YYYY-MM-DD'),
+    'S',
+    'N',
+    'Business partner focada em políticas',
+    'HASH_ISABELA',
+    v_id_usuario9
+);
+
+PRC_INS_USUARIO(
+    v_setor_ops,
+    'João Ferreira',
+    'joao.ferreira@neurosync.com',
+    'NS010',
+    '11911110010',
+    TO_DATE('2024-01-05','YYYY-MM-DD'),
+    'S',
+    'S',
+    'Recém-contratado, em adaptação sensorial',
+    'HASH_JOAO',
+    v_id_usuario10
+);
+
   
   --------------------------------------------------------------------
   -- USUARIO_PERFIL (>=10 vínculos)
@@ -318,7 +446,7 @@ BEGIN
   --------------------------------------------------------------------
   -- PREFERENCIAS SENSORIAIS (10)
   --------------------------------------------------------------------
-  
+  commit;
   PRC_INS_PREFERENCIA_SENSORIAL(v_id_usuario1,40, 300, 450, 3, 'SILENCIOSA','Prefere estações em zonas silenciosas',TO_DATE('2023-01-01','YYYY-MM-DD'), NULL, 'S', v_id_pref_dummy);
   PRC_INS_PREFERENCIA_SENSORIAL(v_id_usuario2,45, 250, 400, 4, 'SILENCIOSA','Evitar reflexos e luz muito forte',TO_DATE('2023-01-01','YYYY-MM-DD'), NULL, 'S', v_id_pref_dummy);
   
@@ -333,9 +461,10 @@ BEGIN
   
   PRC_INS_PREFERENCIA_SENSORIAL(v_id_usuario9,50, 300, 500, 5, 'NEUTRA','Equilíbrio entre foco e contato com equipe',TO_DATE('2019-01-01','YYYY-MM-DD'), NULL, 'S', v_id_pref_dummy);
   PRC_INS_PREFERENCIA_SENSORIAL(v_id_usuario10,45, 280, 430, 3, 'SILENCIOSA','Em adaptação, prefere ambientes silenciosos',TO_DATE('2024-01-05','YYYY-MM-DD'), NULL, 'S', v_id_pref_dummy);
-  
+  COMMIT;
 END;
 /
+
 ------------------------------------------------------------------------
 -- BLOCO 4: LEITURAS DE SENSORES / RESERVAS / AVALIAÇÕES
 ------------------------------------------------------------------------
@@ -385,7 +514,7 @@ BEGIN
   SELECT ID_SENSOR INTO v_sensor_ruido2 FROM SENSOR WHERE IDENTIFICADOR_HARDWARE = 'HW-RUIDO-SP-02';
   SELECT ID_SENSOR INTO v_sensor_lux2   FROM SENSOR WHERE IDENTIFICADOR_HARDWARE = 'HW-LUX-SP-02';
 
-  -- Estações principais
+  -- Estaçõ es principais
   SELECT ID_ESTACAO INTO v_estacao1 FROM ESTACAO_TRABALHO WHERE CODIGO_ESTACAO = 'Z-SIL-SP-01';
   SELECT ID_ESTACAO INTO v_estacao2 FROM ESTACAO_TRABALHO WHERE CODIGO_ESTACAO = 'Z-SIL-SP-02';
   SELECT ID_ESTACAO INTO v_estacao3 FROM ESTACAO_TRABALHO WHERE CODIGO_ESTACAO = 'Z-FOC-SP-01';
@@ -530,5 +659,7 @@ BEGIN
 
   PRC_INS_AVALIACAO_ESTACAO(v_id_res10, 5, 5, 4, 5,
       'Primeiro teste de conforto foi excelente.', v_id_avaliacao_dummy);
+  COMMIT;
 END;
 /
+
