@@ -1,0 +1,898 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ApiError {
+  + ApiError(int, String, String, String, List<String>): 
+  - timestamp: LocalDateTime
+  - details: List<String>
+  - status: int
+  - error: String
+  - path: String
+  - message: String
+   timestamp: LocalDateTime
+   status: int
+   details: List<String>
+   message: String
+   path: String
+   error: String
+}
+class AuthController {
+  + AuthController(AuthenticationManager, JwtTokenProvider, JwtProperties): 
+  + login(AuthRequest): ResponseEntity<AuthResponse>
+}
+class AuthRequest {
+  + AuthRequest(): 
+  - senha: String
+  - email: String
+   email: String
+   senha: String
+}
+class AuthResponse {
+  + AuthResponse(String, Long): 
+  - expiresIn: Long
+  - type: String
+  - token: String
+   type: String
+   token: String
+   expiresIn: Long
+}
+class AvaliacaoEstacao {
+  + AvaliacaoEstacao(): 
+  + AvaliacaoEstacao(Long, ReservaEstacao, Integer, Integer, Integer, Integer, String, LocalDateTime): 
+  - notaLuz: Integer
+  - id: Long
+  - notaConfortoGeral: Integer
+  - notaRuido: Integer
+  - comentario: String
+  - notaEstimuloVisual: Integer
+  - reservaEstacao: ReservaEstacao
+  - dataAvaliacao: LocalDateTime
+   id: Long
+   notaConfortoGeral: Integer
+   notaEstimuloVisual: Integer
+   notaRuido: Integer
+   comentario: String
+   notaLuz: Integer
+   dataAvaliacao: LocalDateTime
+   reservaEstacao: ReservaEstacao
+}
+interface AvaliacaoEstacaoRepository << interface >>
+class AvaliacaoMapper {
+  - AvaliacaoMapper(): 
+  + toResponse(AvaliacaoEstacao): AvaliacaoResponse
+}
+class AvaliacaoRequest {
+  + AvaliacaoRequest(): 
+  - notaLuz: Integer
+  - notaRuido: Integer
+  - comentario: String
+  - notaConfortoGeral: Integer
+  - reservaId: Long
+  - notaEstimuloVisual: Integer
+   reservaId: Long
+   comentario: String
+   notaLuz: Integer
+   notaConfortoGeral: Integer
+   notaEstimuloVisual: Integer
+   notaRuido: Integer
+}
+class AvaliacaoResponse {
+  + AvaliacaoResponse(): 
+  - reservaId: Long
+  - notaRuido: Integer
+  - notaLuz: Integer
+  - notaEstimuloVisual: Integer
+  - notaConfortoGeral: Integer
+  - comentario: String
+  - id: Long
+  - dataAvaliacao: LocalDateTime
+   reservaId: Long
+   id: Long
+   notaConfortoGeral: Integer
+   notaEstimuloVisual: Integer
+   notaRuido: Integer
+   comentario: String
+   notaLuz: Integer
+   dataAvaliacao: LocalDateTime
+}
+class BusinessException {
+  + BusinessException(String): 
+}
+class CompatibilidadeResponse {
+  + CompatibilidadeResponse(Long, boolean, String): 
+  - reservaId: Long
+  - compativel: boolean
+  - mensagem: String
+   reservaId: Long
+   mensagem: String
+   compativel: boolean
+}
+class CorsConfig {
+  + CorsConfig(): 
+  + corsConfigurationSource(): CorsConfigurationSource
+}
+class CustomUserDetails {
+  + CustomUserDetails(Usuario): 
+  - usuario: Usuario
+   password: String
+   enabled: boolean
+   accountNonLocked: boolean
+   usuario: Usuario
+   authorities: Collection<GrantedAuthority>
+   accountNonExpired: boolean
+   credentialsNonExpired: boolean
+   username: String
+}
+class CustomUserDetailsService {
+  + CustomUserDetailsService(UsuarioRepository): 
+  + loadUserByUsername(String): UserDetails
+}
+class Empresa {
+  + Empresa(Long, String, String, String, String, String, LocalDateTime, String, List<Filial>): 
+  + Empresa(): 
+  - telefoneCorporativo: String
+  - emailCorporativo: String
+  - dataCadastro: LocalDateTime
+  - cnpj: String
+  - filiais: List<Filial>
+  - id: Long
+  - nomeFantasia: String
+  - razaoSocial: String
+  - statusAtivo: String
+   statusAtivo: String
+   emailCorporativo: String
+   nomeFantasia: String
+   id: Long
+   dataCadastro: LocalDateTime
+   filiais: List<Filial>
+   razaoSocial: String
+   cnpj: String
+   telefoneCorporativo: String
+}
+interface EmpresaRepository << interface >>
+class EstacaoTrabalho {
+  + EstacaoTrabalho(Long, ZonaSensorial, String, String, String, String, String, String, LocalDateTime, List<Sensor>, List<ReservaEstacao>): 
+  + EstacaoTrabalho(): 
+  - permiteReserva: String
+  - permiteUsoEspontaneo: String
+  - observacoes: String
+  - reservas: List<ReservaEstacao>
+  - zonaSensorial: ZonaSensorial
+  - descricao: String
+  - id: Long
+  - statusEstacao: String
+  - dataCadastro: LocalDateTime
+  - codigoEstacao: String
+  - sensores: List<Sensor>
+   zonaSensorial: ZonaSensorial
+   descricao: String
+   observacoes: String
+   permiteReserva: String
+   statusEstacao: String
+   sensores: List<Sensor>
+   reservas: List<ReservaEstacao>
+   id: Long
+   dataCadastro: LocalDateTime
+   permiteUsoEspontaneo: String
+   codigoEstacao: String
+}
+class EstacaoTrabalhoController {
+  + EstacaoTrabalhoController(EstacaoTrabalhoService): 
+  + criar(EstacaoTrabalhoRequest): ResponseEntity<EstacaoTrabalhoResponse>
+  + buscar(Long): ResponseEntity<EstacaoTrabalhoResponse>
+  + listar(Long, String, String, Pageable): ResponseEntity<Page<EstacaoTrabalhoResponse>>
+}
+class EstacaoTrabalhoMapper {
+  - EstacaoTrabalhoMapper(): 
+  + toResponse(EstacaoTrabalho): EstacaoTrabalhoResponse
+}
+interface EstacaoTrabalhoRepository << interface >> {
+  + buscarComFiltros(Long, String, String, Pageable): Page<EstacaoTrabalho>
+}
+class EstacaoTrabalhoRequest {
+  + EstacaoTrabalhoRequest(): 
+  - observacoes: String
+  - statusEstacao: String
+  - codigoEstacao: String
+  - descricao: String
+  - zonaSensorialId: Long
+  - permiteUsoEspontaneo: String
+  - permiteReserva: String
+   descricao: String
+   observacoes: String
+   permiteReserva: String
+   statusEstacao: String
+   zonaSensorialId: Long
+   permiteUsoEspontaneo: String
+   codigoEstacao: String
+}
+class EstacaoTrabalhoResponse {
+  + EstacaoTrabalhoResponse(): 
+  - zonaSensorialId: Long
+  - dataCadastro: LocalDateTime
+  - zonaSensorialNome: String
+  - permiteUsoEspontaneo: String
+  - statusEstacao: String
+  - id: Long
+  - codigoEstacao: String
+  - permiteReserva: String
+  - observacoes: String
+  - descricao: String
+   descricao: String
+   zonaSensorialNome: String
+   observacoes: String
+   permiteReserva: String
+   statusEstacao: String
+   zonaSensorialId: Long
+   id: Long
+   dataCadastro: LocalDateTime
+   permiteUsoEspontaneo: String
+   codigoEstacao: String
+}
+class EstacaoTrabalhoService {
+  + EstacaoTrabalhoService(EstacaoTrabalhoRepository, ZonaSensorialService): 
+  + buscarEntidade(Long): EstacaoTrabalho
+  + buscarPorId(Long): EstacaoTrabalhoResponse
+  + criar(EstacaoTrabalhoRequest): EstacaoTrabalhoResponse
+  + listar(Long, String, String, Pageable): Page<EstacaoTrabalhoResponse>
+}
+class Filial {
+  + Filial(): 
+  + Filial(Long, Empresa, String, String, String, String, String, String, LocalDateTime, String, List<Setor>, List<ZonaSensorial>): 
+  - id: Long
+  - dataCadastro: LocalDateTime
+  - setores: List<Setor>
+  - codigoFilial: String
+  - pais: String
+  - uf: String
+  - empresa: Empresa
+  - statusAtivo: String
+  - zonasSensorial: List<ZonaSensorial>
+  - nomeFilial: String
+  - cidade: String
+  - endereco: String
+   statusAtivo: String
+   empresa: Empresa
+   endereco: String
+   cidade: String
+   id: Long
+   pais: String
+   dataCadastro: LocalDateTime
+   nomeFilial: String
+   zonasSensorial: List<ZonaSensorial>
+   uf: String
+   codigoFilial: String
+   setores: List<Setor>
+}
+interface FilialRepository << interface >>
+class GlobalExceptionHandler {
+  + GlobalExceptionHandler(): 
+  + handleBusiness(BusinessException, HttpServletRequest): ResponseEntity<ApiError>
+  + handleValidation(MethodArgumentNotValidException, HttpServletRequest): ResponseEntity<ApiError>
+  + handleNotFound(NotFoundException, HttpServletRequest): ResponseEntity<ApiError>
+  + handleTypeMismatch(MethodArgumentTypeMismatchException, HttpServletRequest): ResponseEntity<ApiError>
+  + handleGeneric(Exception, HttpServletRequest): ResponseEntity<ApiError>
+  + handleConstraint(ConstraintViolationException, HttpServletRequest): ResponseEntity<ApiError>
+}
+class IndicadorController {
+  + IndicadorController(IndicadorService): 
+  + indiceConforto(Long, LocalDateTime, LocalDateTime): ResponseEntity<IndicadorResponse>
+  + taxaOcupacao(Long, LocalDateTime, LocalDateTime): ResponseEntity<IndicadorResponse>
+}
+class IndicadorResponse {
+  + IndicadorResponse(String, BigDecimal): 
+  - indicador: String
+  - valor: BigDecimal
+   indicador: String
+   valor: BigDecimal
+}
+class IndicadorService {
+  + IndicadorService(EstacaoTrabalhoRepository, ReservaEstacaoRepository): 
+  + calcularIndiceConforto(Long, LocalDateTime, LocalDateTime): IndicadorResponse
+  + verificarCompatibilidade(Long): CompatibilidadeResponse
+  + calcularTaxaOcupacao(Long, LocalDateTime, LocalDateTime): IndicadorResponse
+}
+class JwtAuthenticationEntryPoint {
+  + JwtAuthenticationEntryPoint(): 
+  + commence(HttpServletRequest, HttpServletResponse, AuthenticationException): void
+}
+class JwtAuthenticationFilter {
+  + JwtAuthenticationFilter(JwtTokenProvider, CustomUserDetailsService): 
+  # doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): void
+  - extractToken(HttpServletRequest): String
+}
+class JwtProperties {
+  + JwtProperties(): 
+  - secret: String
+  - expiration: Long
+   expiration: Long
+   secret: String
+}
+class JwtTokenProvider {
+  + JwtTokenProvider(JwtProperties): 
+  + validateToken(String): boolean
+  + generateToken(UserDetails): String
+  + getUsernameFromToken(String): String
+  + getRolesFromToken(String): List<String>
+  + init(): void
+  - parseClaims(String): Claims
+}
+class LeituraSensor {
+  + LeituraSensor(Long, Sensor, LocalDateTime, BigDecimal, Integer, String, LocalDateTime): 
+  + LeituraSensor(): 
+  - valorMedido: BigDecimal
+  - dataProcessamento: LocalDateTime
+  - dataHoraLeitura: LocalDateTime
+  - qualidadeSinal: Integer
+  - sensor: Sensor
+  - id: Long
+  - origemRegistro: String
+   origemRegistro: String
+   qualidadeSinal: Integer
+   id: Long
+   dataHoraLeitura: LocalDateTime
+   valorMedido: BigDecimal
+   dataProcessamento: LocalDateTime
+   sensor: Sensor
+}
+interface LeituraSensorRepository << interface >>
+class NeuroSyncApplication {
+  + NeuroSyncApplication(): 
+  + main(String[]): void
+}
+class NeuroSyncApplicationTests {
+  ~ NeuroSyncApplicationTests(): 
+  ~ contextLoads(): void
+}
+class NotFoundException {
+  + NotFoundException(String): 
+}
+class OpenApiConfig {
+  + OpenApiConfig(): 
+}
+class Perfil {
+  + Perfil(): 
+  + Perfil(Long, String, String, Integer, String, List<UsuarioPerfil>): 
+  - id: Long
+  - nomePerfil: String
+  - descricao: String
+  - statusAtivo: String
+  - usuarios: List<UsuarioPerfil>
+  - nivelAcesso: Integer
+   statusAtivo: String
+   usuarios: List<UsuarioPerfil>
+   descricao: String
+   nivelAcesso: Integer
+   id: Long
+   nomePerfil: String
+}
+interface PerfilRepository << interface >> {
+  + findByNomePerfil(String): Optional<Perfil>
+}
+class PlainOrBcryptPasswordEncoder {
+  + PlainOrBcryptPasswordEncoder(): 
+  + encode(CharSequence): String
+  + matches(CharSequence, String): boolean
+}
+class PreferenciaSensorial {
+  + PreferenciaSensorial(): 
+  + PreferenciaSensorial(Long, Usuario, BigDecimal, BigDecimal, BigDecimal, Integer, String, String, LocalDate, LocalDate, String): 
+  - prefereZona: String
+  - dataFimVigencia: LocalDate
+  - observacoesPreferencia: String
+  - ativo: String
+  - id: Long
+  - dataInicioVigencia: LocalDate
+  - usuario: Usuario
+  - ruidoMaxDb: BigDecimal
+  - luzMaxLux: BigDecimal
+  - toleranciaVisual: Integer
+  - luzMinLux: BigDecimal
+   toleranciaVisual: Integer
+   luzMaxLux: BigDecimal
+   prefereZona: String
+   luzMinLux: BigDecimal
+   id: Long
+   ativo: String
+   usuario: Usuario
+   ruidoMaxDb: BigDecimal
+   dataFimVigencia: LocalDate
+   dataInicioVigencia: LocalDate
+   observacoesPreferencia: String
+}
+class PreferenciaSensorialController {
+  + PreferenciaSensorialController(PreferenciaSensorialService): 
+  + criar(PreferenciaSensorialRequest): ResponseEntity<PreferenciaSensorialResponse>
+  + listarPorUsuario(Long): ResponseEntity<List<PreferenciaSensorialResponse>>
+}
+class PreferenciaSensorialMapper {
+  - PreferenciaSensorialMapper(): 
+  + toResponse(PreferenciaSensorial): PreferenciaSensorialResponse
+}
+interface PreferenciaSensorialRepository << interface >> {
+  + findByUsuarioId(Long): List<PreferenciaSensorial>
+}
+class PreferenciaSensorialRequest {
+  + PreferenciaSensorialRequest(): 
+  - prefereZona: String
+  - ruidoMaxDb: BigDecimal
+  - observacoesPreferencia: String
+  - dataInicioVigencia: LocalDate
+  - luzMaxLux: BigDecimal
+  - toleranciaVisual: Integer
+  - dataFimVigencia: LocalDate
+  - ativo: String
+  - usuarioId: Long
+  - luzMinLux: BigDecimal
+   toleranciaVisual: Integer
+   luzMaxLux: BigDecimal
+   prefereZona: String
+   luzMinLux: BigDecimal
+   ativo: String
+   ruidoMaxDb: BigDecimal
+   dataFimVigencia: LocalDate
+   dataInicioVigencia: LocalDate
+   observacoesPreferencia: String
+   usuarioId: Long
+}
+class PreferenciaSensorialResponse {
+  + PreferenciaSensorialResponse(): 
+  - dataFimVigencia: LocalDate
+  - luzMaxLux: BigDecimal
+  - prefereZona: String
+  - luzMinLux: BigDecimal
+  - dataInicioVigencia: LocalDate
+  - ruidoMaxDb: BigDecimal
+  - ativo: String
+  - id: Long
+  - usuarioId: Long
+  - observacoesPreferencia: String
+  - toleranciaVisual: Integer
+   toleranciaVisual: Integer
+   luzMaxLux: BigDecimal
+   prefereZona: String
+   luzMinLux: BigDecimal
+   id: Long
+   ativo: String
+   ruidoMaxDb: BigDecimal
+   dataFimVigencia: LocalDate
+   dataInicioVigencia: LocalDate
+   observacoesPreferencia: String
+   usuarioId: Long
+}
+class PreferenciaSensorialService {
+  + PreferenciaSensorialService(PreferenciaSensorialRepository, UsuarioRepository): 
+  + criar(PreferenciaSensorialRequest): PreferenciaSensorialResponse
+  + buscarPorUsuario(Long): List<PreferenciaSensorialResponse>
+}
+class ReservaController {
+  + ReservaController(ReservaService, IndicadorService): 
+  + listar(Long, Long, LocalDateTime, LocalDateTime, Pageable): ResponseEntity<Page<ReservaResponse>>
+  + criar(ReservaRequest): ResponseEntity<ReservaResponse>
+  + avaliar(AvaliacaoRequest): ResponseEntity<AvaliacaoResponse>
+  + compatibilidade(Long): ResponseEntity<CompatibilidadeResponse>
+}
+class ReservaEstacao {
+  + ReservaEstacao(Long, Usuario, EstacaoTrabalho, StatusReserva, LocalDateTime, LocalDateTime, LocalDateTime, LocalDateTime, LocalDateTime, String, String, BigDecimal, String, List<AvaliacaoEstacao>): 
+  + ReservaEstacao(): 
+  - id: Long
+  - indiceConfortoCalculado: BigDecimal
+  - avaliacoes: List<AvaliacaoEstacao>
+  - origemReserva: String
+  - motivoCancelamento: String
+  - dataHoraSolicitacao: LocalDateTime
+  - dataHoraFimPrevista: LocalDateTime
+  - usuario: Usuario
+  - dataHoraInicioPrevista: LocalDateTime
+  - statusReserva: StatusReserva
+  - observacoes: String
+  - estacaoTrabalho: EstacaoTrabalho
+  - dataHoraCheckin: LocalDateTime
+  - dataHoraCheckout: LocalDateTime
+   dataHoraSolicitacao: LocalDateTime
+   dataHoraInicioPrevista: LocalDateTime
+   observacoes: String
+   avaliacoes: List<AvaliacaoEstacao>
+   id: Long
+   dataHoraFimPrevista: LocalDateTime
+   dataHoraCheckout: LocalDateTime
+   statusReserva: StatusReserva
+   origemReserva: String
+   motivoCancelamento: String
+   indiceConfortoCalculado: BigDecimal
+   usuario: Usuario
+   estacaoTrabalho: EstacaoTrabalho
+   dataHoraCheckin: LocalDateTime
+}
+interface ReservaEstacaoRepository << interface >> {
+  + buscarComFiltros(Long, Long, LocalDateTime, LocalDateTime, Pageable): Page<ReservaEstacao>
+}
+class ReservaMapper {
+  - ReservaMapper(): 
+  + toResponse(ReservaEstacao): ReservaResponse
+}
+class ReservaRequest {
+  + ReservaRequest(): 
+  - origemReserva: String
+  - observacoes: String
+  - dataHoraFimPrevista: LocalDateTime
+  - statusReservaId: Long
+  - dataHoraInicioPrevista: LocalDateTime
+  - usuarioId: Long
+  - estacaoId: Long
+   estacaoId: Long
+   origemReserva: String
+   dataHoraInicioPrevista: LocalDateTime
+   observacoes: String
+   dataHoraFimPrevista: LocalDateTime
+   statusReservaId: Long
+   usuarioId: Long
+}
+class ReservaResponse {
+  + ReservaResponse(): 
+  - usuarioId: Long
+  - statusCodigo: String
+  - motivoCancelamento: String
+  - estacaoId: Long
+  - usuarioNome: String
+  - observacoes: String
+  - indiceConfortoCalculado: BigDecimal
+  - origemReserva: String
+  - statusReservaId: Long
+  - dataHoraFimPrevista: LocalDateTime
+  - dataHoraCheckin: LocalDateTime
+  - id: Long
+  - dataHoraSolicitacao: LocalDateTime
+  - dataHoraCheckout: LocalDateTime
+  - dataHoraInicioPrevista: LocalDateTime
+  - codigoEstacao: String
+   dataHoraSolicitacao: LocalDateTime
+   dataHoraInicioPrevista: LocalDateTime
+   observacoes: String
+   id: Long
+   dataHoraFimPrevista: LocalDateTime
+   dataHoraCheckout: LocalDateTime
+   statusCodigo: String
+   usuarioNome: String
+   usuarioId: Long
+   origemReserva: String
+   estacaoId: Long
+   motivoCancelamento: String
+   indiceConfortoCalculado: BigDecimal
+   statusReservaId: Long
+   dataHoraCheckin: LocalDateTime
+   codigoEstacao: String
+}
+class ReservaService {
+  + ReservaService(ReservaEstacaoRepository, UsuarioRepository, EstacaoTrabalhoRepository, StatusReservaRepository, AvaliacaoEstacaoRepository): 
+  + criarAvaliacaoComProcedure(AvaliacaoRequest): AvaliacaoResponse
+  + listar(Long, Long, LocalDateTime, LocalDateTime, Pageable): Page<ReservaResponse>
+  + criarComProcedure(ReservaRequest): ReservaResponse
+  + buscarEntidade(Long): ReservaEstacao
+}
+class SecurityConfig {
+  + SecurityConfig(JwtAuthenticationFilter, CustomUserDetailsService, JwtAuthenticationEntryPoint): 
+  + securityFilterChain(HttpSecurity): SecurityFilterChain
+  + authenticationManager(AuthenticationConfiguration): AuthenticationManager
+  + passwordEncoder(): PasswordEncoder
+  + authenticationProvider(): AuthenticationProvider
+}
+class Sensor {
+  + Sensor(Long, EstacaoTrabalho, TipoSensor, String, LocalDate, LocalDate, String, String, List<LeituraSensor>): 
+  + Sensor(): 
+  - leituras: List<LeituraSensor>
+  - dataUltimaManutencao: LocalDate
+  - statusSensor: String
+  - id: Long
+  - tipoSensor: TipoSensor
+  - observacoes: String
+  - estacaoTrabalho: EstacaoTrabalho
+  - identificadorHardware: String
+  - dataInstalacao: LocalDate
+   statusSensor: String
+   observacoes: String
+   id: Long
+   dataInstalacao: LocalDate
+   identificadorHardware: String
+   estacaoTrabalho: EstacaoTrabalho
+   dataUltimaManutencao: LocalDate
+   leituras: List<LeituraSensor>
+   tipoSensor: TipoSensor
+}
+interface SensorRepository << interface >>
+class Setor {
+  + Setor(): 
+  + Setor(Long, Filial, String, String, String, String, LocalDateTime, String, List<Usuario>): 
+  - andar: String
+  - id: Long
+  - codigoSetor: String
+  - usuarios: List<Usuario>
+  - filial: Filial
+  - descricao: String
+  - dataCadastro: LocalDateTime
+  - statusAtivo: String
+  - nomeSetor: String
+   statusAtivo: String
+   usuarios: List<Usuario>
+   descricao: String
+   andar: String
+   id: Long
+   nomeSetor: String
+   dataCadastro: LocalDateTime
+   codigoSetor: String
+   filial: Filial
+}
+interface SetorRepository << interface >>
+class StatusReserva {
+  + StatusReserva(Long, String, String, String, List<ReservaEstacao>): 
+  + StatusReserva(): 
+  - codigoStatus: String
+  - reservas: List<ReservaEstacao>
+  - id: Long
+  - descricao: String
+  - finalizador: String
+   descricao: String
+   finalizador: String
+   reservas: List<ReservaEstacao>
+   id: Long
+   codigoStatus: String
+}
+interface StatusReservaRepository << interface >>
+class TipoSensor {
+  + TipoSensor(Long, String, String, String, String, List<Sensor>): 
+  + TipoSensor(): 
+  - unidadeMedida: String
+  - descricao: String
+  - statusAtivo: String
+  - id: Long
+  - sensores: List<Sensor>
+  - nomeTipoSensor: String
+   statusAtivo: String
+   descricao: String
+   unidadeMedida: String
+   sensores: List<Sensor>
+   id: Long
+   nomeTipoSensor: String
+}
+interface TipoSensorRepository << interface >>
+class Usuario {
+  + Usuario(): 
+  + Usuario(Long, Setor, String, String, String, String, LocalDate, LocalDateTime, String, String, String, String, LocalDateTime, Integer, String, List<UsuarioPerfil>, List<PreferenciaSensorial>, List<ReservaEstacao>): 
+  - perfis: List<UsuarioPerfil>
+  - nomeCompleto: String
+  - matriculaInterna: String
+  - dataCadastro: LocalDateTime
+  - statusAtivo: String
+  - dataAdmissao: LocalDate
+  - dataUltimoLogin: LocalDateTime
+  - mudarSenhaProximoLogin: String
+  - telefone: String
+  - preferenciasSensorial: List<PreferenciaSensorial>
+  - observacoesSuporte: String
+  - reservas: List<ReservaEstacao>
+  - quantidadeTentativasLogin: Integer
+  - flagNeurodivergente: String
+  - senhaHash: String
+  - setor: Setor
+  - id: Long
+  - emailCorporativo: String
+   statusAtivo: String
+   emailCorporativo: String
+   quantidadeTentativasLogin: Integer
+   preferenciasSensorial: List<PreferenciaSensorial>
+   observacoesSuporte: String
+   setor: Setor
+   id: Long
+   senhaHash: String
+   perfis: List<UsuarioPerfil>
+   flagNeurodivergente: String
+   nomeCompleto: String
+   reservas: List<ReservaEstacao>
+   dataCadastro: LocalDateTime
+   telefone: String
+   mudarSenhaProximoLogin: String
+   dataAdmissao: LocalDate
+   dataUltimoLogin: LocalDateTime
+   matriculaInterna: String
+}
+class UsuarioController {
+  + UsuarioController(UsuarioService): 
+  + listar(): ResponseEntity<List<UsuarioResponse>>
+  + criar(UsuarioRequest): ResponseEntity<UsuarioResponse>
+  + buscar(Long): ResponseEntity<UsuarioResponse>
+}
+class UsuarioMapper {
+  - UsuarioMapper(): 
+  + toResponse(Usuario): UsuarioResponse
+}
+class UsuarioPerfil {
+  + UsuarioPerfil(): 
+  + UsuarioPerfil(Long, Usuario, Perfil, LocalDateTime, String, String): 
+  - perfil: Perfil
+  - id: Long
+  - dataAtribuicao: LocalDateTime
+  - statusAtivo: String
+  - usuario: Usuario
+  - usuarioResponsavel: String
+   statusAtivo: String
+   perfil: Perfil
+   id: Long
+   usuario: Usuario
+   usuarioResponsavel: String
+   dataAtribuicao: LocalDateTime
+}
+interface UsuarioPerfilRepository << interface >>
+interface UsuarioRepository << interface >> {
+  + findByEmailCorporativo(String): Optional<Usuario>
+}
+class UsuarioRequest {
+  + UsuarioRequest(): 
+  - perfisIds: List<Long>
+  - emailCorporativo: String
+  - setorId: Long
+  - telefone: String
+  - flagNeurodivergente: String
+  - matriculaInterna: String
+  - senha: String
+  - dataAdmissao: LocalDate
+  - nomeCompleto: String
+   emailCorporativo: String
+   perfisIds: List<Long>
+   senha: String
+   flagNeurodivergente: String
+   telefone: String
+   setorId: Long
+   dataAdmissao: LocalDate
+   matriculaInterna: String
+   nomeCompleto: String
+}
+class UsuarioResponse {
+  + UsuarioResponse(): 
+  - setorNome: String
+  - flagNeurodivergente: String
+  - emailCorporativo: String
+  - telefone: String
+  - setorId: Long
+  - id: Long
+  - statusAtivo: String
+  - nomeCompleto: String
+  - perfis: List<String>
+   statusAtivo: String
+   emailCorporativo: String
+   id: Long
+   perfis: List<String>
+   flagNeurodivergente: String
+   telefone: String
+   setorNome: String
+   setorId: Long
+   nomeCompleto: String
+}
+class UsuarioService {
+  + UsuarioService(UsuarioRepository, SetorRepository, PerfilRepository, UsuarioPerfilRepository, PasswordEncoder): 
+  + buscarPorId(Long): UsuarioResponse
+  + listar(): List<UsuarioResponse>
+  + criar(UsuarioRequest): UsuarioResponse
+}
+class ZonaSensorial {
+  + ZonaSensorial(): 
+  + ZonaSensorial(Long, Filial, String, String, String, BigDecimal, BigDecimal, String, Integer, String, List<EstacaoTrabalho>): 
+  - descricao: String
+  - luzMediaEstimadoLux: BigDecimal
+  - caracteristicaVisual: String
+  - nomeZona: String
+  - ruidoMedioEstimadoDb: BigDecimal
+  - id: Long
+  - capacidadeEstimada: Integer
+  - estacoes: List<EstacaoTrabalho>
+  - tipoZona: String
+  - statusAtivo: String
+  - filial: Filial
+   statusAtivo: String
+   descricao: String
+   tipoZona: String
+   ruidoMedioEstimadoDb: BigDecimal
+   estacoes: List<EstacaoTrabalho>
+   capacidadeEstimada: Integer
+   id: Long
+   caracteristicaVisual: String
+   filial: Filial
+   nomeZona: String
+   luzMediaEstimadoLux: BigDecimal
+}
+class ZonaSensorialController {
+  + ZonaSensorialController(ZonaSensorialService): 
+  + listar(): ResponseEntity<List<ZonaSensorialResponse>>
+}
+class ZonaSensorialMapper {
+  - ZonaSensorialMapper(): 
+  + toResponse(ZonaSensorial): ZonaSensorialResponse
+}
+interface ZonaSensorialRepository << interface >>
+class ZonaSensorialResponse {
+  + ZonaSensorialResponse(): 
+  - tipoZona: String
+  - statusAtivo: String
+  - filialId: Long
+  - nomeZona: String
+  - filialNome: String
+  - id: Long
+   statusAtivo: String
+   tipoZona: String
+   filialId: Long
+   id: Long
+   nomeZona: String
+   filialNome: String
+}
+class ZonaSensorialService {
+  + ZonaSensorialService(ZonaSensorialRepository): 
+  + listar(): List<ZonaSensorialResponse>
+  + buscarEntidade(Long): ZonaSensorial
+}
+
+AuthController                 "1" *-[#595959,plain]-> "jwtProperties\n1" JwtProperties                  
+AuthController                 "1" *-[#595959,plain]-> "jwtTokenProvider\n1" JwtTokenProvider               
+AvaliacaoEstacao               "1" *-[#595959,plain]-> "reservaEstacao\n1" ReservaEstacao                 
+CustomUserDetails              "1" *-[#595959,plain]-> "usuario\n1" Usuario                        
+CustomUserDetailsService       "1" *-[#595959,plain]-> "usuarioRepository\n1" UsuarioRepository              
+Empresa                        "1" *-[#595959,plain]-> "filiais\n*" Filial                         
+EstacaoTrabalho                "1" *-[#595959,plain]-> "reservas\n*" ReservaEstacao                 
+EstacaoTrabalho                "1" *-[#595959,plain]-> "sensores\n*" Sensor                         
+EstacaoTrabalho                "1" *-[#595959,plain]-> "zonaSensorial\n1" ZonaSensorial                  
+EstacaoTrabalhoController      "1" *-[#595959,plain]-> "estacaoTrabalhoService\n1" EstacaoTrabalhoService         
+EstacaoTrabalhoService         "1" *-[#595959,plain]-> "estacaoTrabalhoRepository\n1" EstacaoTrabalhoRepository      
+EstacaoTrabalhoService         "1" *-[#595959,plain]-> "zonaSensorialService\n1" ZonaSensorialService           
+Filial                         "1" *-[#595959,plain]-> "empresa\n1" Empresa                        
+Filial                         "1" *-[#595959,plain]-> "setores\n*" Setor                          
+Filial                         "1" *-[#595959,plain]-> "zonasSensorial\n*" ZonaSensorial                  
+IndicadorController            "1" *-[#595959,plain]-> "indicadorService\n1" IndicadorService               
+IndicadorService               "1" *-[#595959,plain]-> "estacaoTrabalhoRepository\n1" EstacaoTrabalhoRepository      
+IndicadorService               "1" *-[#595959,plain]-> "reservaEstacaoRepository\n1" ReservaEstacaoRepository       
+JwtAuthenticationFilter        "1" *-[#595959,plain]-> "userDetailsService\n1" CustomUserDetailsService       
+JwtAuthenticationFilter        "1" *-[#595959,plain]-> "tokenProvider\n1" JwtTokenProvider               
+JwtTokenProvider               "1" *-[#595959,plain]-> "properties\n1" JwtProperties                  
+LeituraSensor                  "1" *-[#595959,plain]-> "sensor\n1" Sensor                         
+Perfil                         "1" *-[#595959,plain]-> "usuarios\n*" UsuarioPerfil                  
+PreferenciaSensorial           "1" *-[#595959,plain]-> "usuario\n1" Usuario                        
+PreferenciaSensorialController "1" *-[#595959,plain]-> "preferenciaSensorialService\n1" PreferenciaSensorialService    
+PreferenciaSensorialService    "1" *-[#595959,plain]-> "preferenciaSensorialRepository\n1" PreferenciaSensorialRepository 
+PreferenciaSensorialService    "1" *-[#595959,plain]-> "usuarioRepository\n1" UsuarioRepository              
+ReservaController              "1" *-[#595959,plain]-> "indicadorService\n1" IndicadorService               
+ReservaController              "1" *-[#595959,plain]-> "reservaService\n1" ReservaService                 
+ReservaEstacao                 "1" *-[#595959,plain]-> "avaliacoes\n*" AvaliacaoEstacao               
+ReservaEstacao                 "1" *-[#595959,plain]-> "estacaoTrabalho\n1" EstacaoTrabalho                
+ReservaEstacao                 "1" *-[#595959,plain]-> "statusReserva\n1" StatusReserva                  
+ReservaEstacao                 "1" *-[#595959,plain]-> "usuario\n1" Usuario                        
+ReservaService                 "1" *-[#595959,plain]-> "avaliacaoEstacaoRepository\n1" AvaliacaoEstacaoRepository     
+ReservaService                 "1" *-[#595959,plain]-> "estacaoTrabalhoRepository\n1" EstacaoTrabalhoRepository      
+ReservaService                 "1" *-[#595959,plain]-> "reservaEstacaoRepository\n1" ReservaEstacaoRepository       
+ReservaService                 "1" *-[#595959,plain]-> "statusReservaRepository\n1" StatusReservaRepository        
+ReservaService                 "1" *-[#595959,plain]-> "usuarioRepository\n1" UsuarioRepository              
+SecurityConfig                 "1" *-[#595959,plain]-> "userDetailsService\n1" CustomUserDetailsService       
+SecurityConfig                 "1" *-[#595959,plain]-> "authenticationEntryPoint\n1" JwtAuthenticationEntryPoint    
+SecurityConfig                 "1" *-[#595959,plain]-> "jwtAuthenticationFilter\n1" JwtAuthenticationFilter        
+Sensor                         "1" *-[#595959,plain]-> "estacaoTrabalho\n1" EstacaoTrabalho                
+Sensor                         "1" *-[#595959,plain]-> "leituras\n*" LeituraSensor                  
+Sensor                         "1" *-[#595959,plain]-> "tipoSensor\n1" TipoSensor                     
+Setor                          "1" *-[#595959,plain]-> "filial\n1" Filial                         
+Setor                          "1" *-[#595959,plain]-> "usuarios\n*" Usuario                        
+StatusReserva                  "1" *-[#595959,plain]-> "reservas\n*" ReservaEstacao                 
+TipoSensor                     "1" *-[#595959,plain]-> "sensores\n*" Sensor                         
+Usuario                        "1" *-[#595959,plain]-> "preferenciasSensorial\n*" PreferenciaSensorial           
+Usuario                        "1" *-[#595959,plain]-> "reservas\n*" ReservaEstacao                 
+Usuario                        "1" *-[#595959,plain]-> "setor\n1" Setor                          
+Usuario                        "1" *-[#595959,plain]-> "perfis\n*" UsuarioPerfil                  
+UsuarioController              "1" *-[#595959,plain]-> "usuarioService\n1" UsuarioService                 
+UsuarioPerfil                  "1" *-[#595959,plain]-> "perfil\n1" Perfil                         
+UsuarioPerfil                  "1" *-[#595959,plain]-> "usuario\n1" Usuario                        
+UsuarioService                 "1" *-[#595959,plain]-> "perfilRepository\n1" PerfilRepository               
+UsuarioService                 "1" *-[#595959,plain]-> "setorRepository\n1" SetorRepository                
+UsuarioService                 "1" *-[#595959,plain]-> "usuarioPerfilRepository\n1" UsuarioPerfilRepository        
+UsuarioService                 "1" *-[#595959,plain]-> "usuarioRepository\n1" UsuarioRepository              
+ZonaSensorial                  "1" *-[#595959,plain]-> "estacoes\n*" EstacaoTrabalho                
+ZonaSensorial                  "1" *-[#595959,plain]-> "filial\n1" Filial                         
+ZonaSensorialController        "1" *-[#595959,plain]-> "zonaSensorialService\n1" ZonaSensorialService           
+ZonaSensorialService           "1" *-[#595959,plain]-> "zonaSensorialRepository\n1" ZonaSensorialRepository        
+@enduml
