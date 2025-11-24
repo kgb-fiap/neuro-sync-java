@@ -1,15 +1,14 @@
 # **🧠 Neuro-Sync API**
 
 **Backend para inclusão produtiva com monitoramento sensorial e reservas inteligentes**
-
+---
+#### 📹 **Demonstração em vídeo:** https://www.youtube.com/watch?v=rRhjcRP6Sb8
 ---
 
 ## **📖 Sobre o Projeto**
 
 **Neuro-Sync API** é o backend REST (Spring Boot) do desafio **Global Solution 2025 - O Futuro do Trabalho**.  
 Exposição de serviços para reservas de estações, preferências sensoriais, autenticação JWT e indicadores calculados a partir do Oracle.  
-
-📹 **Demonstração em vídeo:** https://www.youtube.com/watch?v=rRhjcRP6Sb8
 
 O neuro-sync é uma solução tecnológica voltada para inclusão produtiva e bem-estar no ambiente de trabalho, alinhada ao tema “o futuro do trabalho” e aos objetivos de desenvolvimento sustentável (ods 8 - trabalho decente e crescimento econômico, e ods 10 – redução das desigualdades). a proposta combina iot, análise de dados e acessibilidade sensorial, permitindo que profissionais neurodivergentes possam localizar, reservar e monitorar estações de trabalho sensorialmente adequadas, com controle de ruído, luminosidade e estímulos visuais em tempo real.
 
